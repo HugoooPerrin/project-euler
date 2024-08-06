@@ -8,6 +8,8 @@ Classes & functions related to resources monitoring
 Simple decorator designed to assess:
     - Running time
     - Max RAM usage
+
+Can do multiple reps to improve estimation
 """
 
 
@@ -60,6 +62,7 @@ def decorator_maker(rep=1):
                 memories.append(peak)
 
             # Formating time
+            # print(times)
             avg_time = np.mean(times)
             if avg_time < 1:
                 avg_time_str = f'{round(avg_time*1e3)} µs'
@@ -73,6 +76,7 @@ def decorator_maker(rep=1):
                 avg_time_str = f'{round(avg_time/1e3)} s'
 
             # Formating memory
+            # print(memories)
             memory = memories[0] / 1024
             if memory < 1024:
                 memory_str = f'{round(memory)} KB'
@@ -80,7 +84,7 @@ def decorator_maker(rep=1):
                 memory_str = f'{round(memory / 1024)} MB'
 
             print(
-                f"[{avg_time_str} / {memory_str}]"
+                f"[{avg_time_str} / {memory_str}]", end=' '
             )
 
             return result
@@ -88,4 +92,4 @@ def decorator_maker(rep=1):
         return wrapper
     return decorator
 
-monitor = decorator_maker(rep=10)
+monitor = decorator_maker(rep=1)
